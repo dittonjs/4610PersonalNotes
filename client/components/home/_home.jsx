@@ -16,6 +16,8 @@ export const Home = () => {
   const [user, setUser] = useState(null);
   useEffect(async () => {
     const res = await api.get('/users/me');
+    const { message } = await api.get('/notes');
+    console.log(message);
     setUser(res.user);
     setLoading(false);
   }, []);
