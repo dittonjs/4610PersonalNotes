@@ -1,10 +1,40 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, Param, Post } from '@nestjs/common';
+import { JwtBody } from 'server/decorators/jwt_body.decorator';
+import { JwtBodyDto } from 'server/dto/jwt_body.dto';
+import { Note } from 'server/entities/note.entity';
+import { NotesService } from 'server/providers/services/notes.service';
+
+class NotePostBody {
+  contents: string;
+}
 
 @Controller()
 export class NotesController {
+  constructor(private notesService: NotesService) {}
+
   @Get('/notes')
-  public index() {
-    return { message: 'Hello, world' };
+  public async index(@JwtBody() jwtBody: JwtBodyDto) {
+    const notes = await this.notesService.findAllForUser(jwtBody.userId);
+    return { notes };
+  }
+
+  @Post('/notes')
+  public async create(@JwtBody() jwtBody: JwtBodyDto, @Body() body: NotePostBody) {
+    let note = new Note();
+    note.contents = body.contents;
+    note.userId = jwtBody.userId;
+    note = await this.notesService.createNote(note);
+    return { note };
+  }
+
+  @Delete('/notes/:id')
+  public async destroy(@Param('id') id: string, @JwtBody() jwtBody: JwtBodyDto) {
+    const note = await this.notesService.findNoteById(parseInt(id, 10));
+    if (note.userId !== jwtBody.userId) {
+      throw new HttpException('Unauthorized', 401);
+    }
+    this.notesService.removeNote(note);
+    return { success: true };
   }
 }
 // routes
@@ -20,6 +50,7 @@ export class NotesController {
 // GET         /resources/new          new             return a form use for creating a new resource
 
 /*
+GET /notes;
 GET /users/2
 GET /users?gender=f&birthmonth=6
 GET /profiles?user_id=2
