@@ -1,49 +1,22 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import { ApiContext } from '../../utils/api_context';
-import { AuthContext } from '../../utils/auth_context';
-import { RolesContext } from '../../utils/roles_context';
-import { Button } from '../common/button';
+import { useState } from 'react';
+import { Button } from './button';
 
 export const Home = () => {
-  const [, setAuthToken] = useContext(AuthContext);
-  const api = useContext(ApiContext);
-  const roles = useContext(RolesContext);
+  const [count, setCount] = useState(0);
+  const [inputValue, setInputValue] = useState('');
 
-  const navigate = useNavigate();
-
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  useEffect(async () => {
-    const res = await api.get('/users/me');
-    const { message } = await api.get('/notes');
-    console.log(message);
-    setUser(res.user);
-    setLoading(false);
-  }, []);
-
-  const logout = async () => {
-    const res = await api.del('/sessions');
-    if (res.success) {
-      setAuthToken(null);
-    }
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
-    <div className="p-4">
-      <h1>Welcome {user.firstName}</h1>
-      <Button type="button" onClick={logout}>
-        Logout
-      </Button>
-      {roles.includes('admin') && (
-        <Button type="button" onClick={() => navigate('/admin')}>
-          Admin
-        </Button>
-      )}
+    <div>
+      <h2 className="text-9xl">{count}</h2>
+      <div>
+        <input
+          type="text"
+          className="p-2 border-2"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+      </div>
     </div>
   );
 };
