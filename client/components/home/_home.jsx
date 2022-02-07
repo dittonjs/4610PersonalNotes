@@ -1,22 +1,38 @@
-import { useState } from 'react';
-import { Button } from './button';
+import { useState, useContext, useEffect } from 'react';
+import { ApiContext } from '../../utils/api_context';
+import { Button } from '../common/button';
 
 export const Home = () => {
-  const [count, setCount] = useState(0);
-  const [inputValue, setInputValue] = useState('');
+  const api = useContext(ApiContext);
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [noteContents, setNoteContents] = useState('');
+  useEffect(async () => {
+    const { notes } = await api.get('/notes');
+    setLoading(false);
+    setNotes(notes);
+  }, []);
 
+  if (loading) return <div>Loading...{notes}</div>;
+
+  const saveNote = async () => {
+    const noteBody = {
+      contents: noteContents,
+    };
+    const { note } = await api.post('/notes', noteBody);
+    setNotes([...notes, note]);
+  };
+
+  console.log(notes);
 
   return (
     <div>
-      <h2 className="text-9xl">{count}</h2>
-      <div>
-        <input
-          type="text"
-          className="p-2 border-2"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-      </div>
+      <textarea
+        value={noteContents}
+        onChange={(e) => setNoteContents(e.target.value)}
+        className="p-2 border-2 rounded"
+      />
+      <Button onClick={saveNote}>Save</Button>
     </div>
   );
 };

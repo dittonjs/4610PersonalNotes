@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../../utils/auth_context';
 import { Paper } from '../common/paper';
@@ -10,6 +10,10 @@ export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.getElementById('email').focus();
+  }, []);
 
   const goToSignUp = () => {
     navigate('/signup');
@@ -31,6 +35,7 @@ export const SignIn = () => {
       setAuthToken(result.token);
       navigate('/');
     } else {
+      document.getElementById('email').focus();
       console.error('An issue occurred when logging in.');
     }
   };
@@ -40,7 +45,7 @@ export const SignIn = () => {
       <div className="w-96">
         <Paper>
           <div>Email</div>
-          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <div>Password</div>
           <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <div className="flex flex-row justify-end mt-2">
