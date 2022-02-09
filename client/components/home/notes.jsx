@@ -1,4 +1,4 @@
-import { Button } from '../common/button';
+import { Note } from './note';
 
 export const Notes = ({ notes, deleteNote }) => {
   return (
