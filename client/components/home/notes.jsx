@@ -7,7 +7,7 @@ export const Notes = ({ notes, deleteNote }) => {
         <div key={note.id} className="border-2 rounded p-4 bg-gray-500 text-white">
           {note.contents}
           <div>
-            <Button onClick={() => deleteNote(note)}>Delete</Button>
+            <Button onClick={() => deleteNote(note)}>Delete ME!!!</Button>
           </div>
         </div>
       ))}
