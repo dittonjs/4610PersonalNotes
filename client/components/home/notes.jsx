@@ -4,7 +4,12 @@ export const Notes = ({ notes, deleteNote }) => {
   return (
     <div className="flex-1">
       {notes.map((note) => (
-        <Note key={note.id} note={note} deleteNote={deleteNote} />
+        <div key={note.id} className="border-2 rounded p-4">
+          {note.contents}
+          <div>
+            <Button onClick={() => deleteNote(note)}>Delete</Button>
+          </div>
+        </div>
       ))}
     </div>
   );
