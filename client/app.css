@@ -3,3 +3,47 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* bottom: 0; */
+  padding: 16px;
+  background: gray;
+}
+
+
+
+.drawer {
+  position: fixed;
+  left: -300px;
+  top: 55px;
+  bottom: 0;
+  width: 300px;
+  background: white;
+  border: 1px solid gray;
+  transition: all .3s ease;
+}
+
+.drawer-open {
+  left: 0;
+}
+
+
+.my-container {
+  display: flex;
+}
+
+.main {
+  color: red;
+  border: 1px solid black;
+  padding: 16px 64px;
+  margin: 16px;
+}
+
+.other {
+  padding: 4px;
+  color: blue;
+}

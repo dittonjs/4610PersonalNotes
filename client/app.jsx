@@ -10,39 +10,95 @@ import { parseJwt } from './utils/parse_jwt';
 import './app.css';
 
 export const App = () => {
-  const [authToken, setAuthToken] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  // Refresh the jwt token automatically
-  useJwtRefresh(authToken, setAuthToken);
-
-  // api instance
-  const api = useApi(authToken);
-
-  // get initial jwt using refresh token
-  useEffect(async () => {
-    const result = await api.get('/refresh_token');
-    if (result.token) {
-      setAuthToken(result.token);
-    }
-    setLoading(false);
-  }, []);
-
-  const jwtPayload = parseJwt(authToken);
-
-  // don't display anything while trying to get user token
-  // can display a loading screen here if desired
-  if (loading) return null;
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <AuthContext.Provider value={[authToken, setAuthToken]}>
-      <ApiContext.Provider value={api}>
-        <RolesContext.Provider value={jwtPayload.roles}>
-          <HashRouter>
-            <Router />
-          </HashRouter>
-        </RolesContext.Provider>
-      </ApiContext.Provider>
-    </AuthContext.Provider>
+    <>
+      <script type="text/javascript">console.log("hello, world")</script>
+      <div className="top-bar">
+        <button onClick={() => setIsOpen(!isOpen)}>Open</button>My Notes
+      </div>
+      <div className={isOpen ? 'drawer drawer-open' : 'drawer'}></div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+      <div className="main">
+        Hello, world
+        <div className="other">My name is Joseph</div>
+      </div>
+    </>
   );
 };
